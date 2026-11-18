@@ -1,0 +1,27 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "South Florida Insurance Market Analysis"
+  navbar:
+    collapse-below: lg
+    left:
+      - href: index.qmd
+        text: Home
+      - href: explore.qmd
+        text: Explore South Florida
+      - href: story.qmd
+        text: Insurance Market Opportunities
+  page-footer:
+    center: "Source: U.S. Census Bureau, 2020–2024 ACS 5-year estimates."
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 2
+    smooth-scroll: true
+
+execute:
+  echo: false

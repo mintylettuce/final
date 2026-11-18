@@ -1,0 +1,21 @@
+# Credentials
+.Renviron
+.env
+.env.*
+!.env.example
+
+# Quarto output and caches
+_site/
+.quarto/
+_freeze/
+*_files/
+*.html
+*.knit.md
+
+# R session files
+.Rhistory
+.RData
+.Rproj.user/
+
+/.quarto/
+**/*.quarto_ipynb

@@ -1,0 +1,88 @@
+---
+title: "Insurance Market Opportunities"
+---
+
+## What stands out in the income data?
+
+```{r}
+#| label: load-acs-data
+#| include: false
+
+library(tidyverse)
+library(ggplot2)
+
+county_colors <- c(
+  "Miami-Dade" = "#0072B2",
+  "Broward" = "#E69F00",
+  "Palm Beach" = "#009E73"
+)
+
+acs_data <- read_csv(
+  "data/south-florida-block-groups.csv",
+  show_col_types = FALSE
+) |>
+  mutate(county = factor(county, levels = names(county_colors)))
+
+income_summary <- acs_data |>
+  group_by(county) |>
+  summarise(
+    median_income = median(median_household_income),
+    income_q1 = quantile(median_household_income, 0.25),
+    income_q3 = quantile(median_household_income, 0.75),
+    median_age = median(median_age),
+    .groups = "drop"
+  )
+```
+
+In these block-group estimates, Palm Beach has the highest median household income (`r scales::dollar(income_summary$median_income[income_summary$county == "Palm Beach"])`), followed by Broward (`r scales::dollar(income_summary$median_income[income_summary$county == "Broward"])`) and Miami-Dade (`r scales::dollar(income_summary$median_income[income_summary$county == "Miami-Dade"])`). The distributions overlap, and each county has block groups spanning a wide income range; county averages alone would hide that local variation.
+
+```{r}
+#| label: county-income-distributions
+#| fig-width: 9
+#| fig-height: 7
+#| fig-alt: "Three county panels compare the distributions of block-group median household income; dashed lines mark each county's median."
+
+ggplot(
+  acs_data,
+  aes(
+    x = median_household_income,
+    color = county,
+    fill = county
+  )
+) +
+  geom_density(alpha = 0.2, linewidth = 1) +
+  geom_vline(
+    data = income_summary,
+    aes(xintercept = median_income),
+    color = "#333333",
+    linetype = "dashed",
+    linewidth = 0.7,
+    inherit.aes = FALSE
+  ) +
+  facet_wrap(vars(county), ncol = 1) +
+  scale_color_manual(values = county_colors) +
+  scale_fill_manual(values = county_colors) +
+  scale_x_continuous(
+    labels = scales::label_dollar(scale = 0.001, suffix = "k", accuracy = 1)
+  ) +
+  labs(
+    title = "Block-group incomes vary within every county",
+    subtitle = "Dashed lines mark each county's median block-group estimate",
+    x = "Median household income (USD)",
+    y = "Relative density",
+    caption = "Source: U.S. Census Bureau, 2020–2024 ACS 5-year estimates."
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    legend.position = "none",
+    panel.grid.minor = element_blank()
+  )
+```
+
+The chart gives each block group equal weight, so it describes neighborhoods rather than the distribution of individual residents. Median age, population, household counts, renter-occupied units, and home values add useful context: for example, income and housing values may help frame affordability questions, while age and household patterns may suggest different life-stage needs to investigate.
+
+These are clues for further research, **not evidence of insurance purchasing behavior**. Census demographics cannot show who has insurance, what coverage people prefer, or whether anyone will buy a policy; actual demand also depends on prices, risk, eligibility, preferences, and existing coverage.
+
+## Data sources
+
+This analysis uses Miami-Dade, Broward, and Palm Beach County block groups from the [2024 ACS 5-year API](https://api.census.gov/data/2024/acs/acs5.html). The [Census Bureau ACS data page](https://www.census.gov/programs-surveys/acs/data.html) describes the survey and its estimates. Block groups missing median income or median age were excluded; auxiliary estimates may still be missing.

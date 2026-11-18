@@ -1,0 +1,135 @@
+---
+title: "Explore South Florida"
+---
+
+Use the dropdown to focus on one county or compare all three. Hover over a point for its block group and estimates; drag across the chart to zoom, then use the plot controls to zoom in or out.
+
+```{r}
+#| label: load-acs-data
+#| include: false
+
+library(tidyverse)
+library(plotly)
+
+county_colors <- c(
+  "Miami-Dade" = "#0072B2",
+  "Broward" = "#E69F00",
+  "Palm Beach" = "#009E73"
+)
+
+acs_data <- read_csv(
+  "data/south-florida-block-groups.csv",
+  show_col_types = FALSE
+) |>
+  mutate(county = factor(county, levels = names(county_colors)))
+```
+
+## Interactive income and age
+
+Each point is one of **`r format(nrow(acs_data), big.mark = ",")` block groups**. The estimates describe the block group as a whole; they are not measurements of individual residents.
+
+```{r}
+#| label: interactive-income-age
+#| fig-height: 7
+
+plot_ly(
+  data = acs_data,
+  x = ~median_household_income,
+  y = ~median_age,
+  split = ~county,
+  color = ~county,
+  colors = unname(county_colors),
+  type = "scatter",
+  mode = "markers",
+  text = ~block_group,
+  customdata = ~county,
+  hovertemplate = paste0(
+    "Block group: %{text}<br>",
+    "Median household income: $%{x:,.0f}<br>",
+    "Median age: %{y:.1f} years<br>",
+    "County: %{customdata}<extra></extra>"
+  ),
+  marker = list(size = 7, opacity = 0.65)
+) |>
+  layout(
+    title = list(text = "Median income and age by block group"),
+    xaxis = list(
+      title = "Median household income (USD)",
+      tickprefix = "$",
+      separatethousands = TRUE
+    ),
+    yaxis = list(title = "Median age (years)"),
+    legend = list(title = list(text = "County"), orientation = "h"),
+    updatemenus = list(
+      list(
+        type = "dropdown",
+        active = 0,
+        x = 0,
+        y = 1.15,
+        buttons = list(
+          list(
+            label = "All counties",
+            method = "restyle",
+            args = list(list(visible = c(TRUE, TRUE, TRUE)))
+          ),
+          list(
+            label = "Miami-Dade",
+            method = "restyle",
+            args = list(list(visible = c(TRUE, FALSE, FALSE)))
+          ),
+          list(
+            label = "Broward",
+            method = "restyle",
+            args = list(list(visible = c(FALSE, TRUE, FALSE)))
+          ),
+          list(
+            label = "Palm Beach",
+            method = "restyle",
+            args = list(list(visible = c(FALSE, FALSE, TRUE)))
+          )
+        )
+      )
+    )
+  )
+```
+
+## Compare county distributions
+
+These boxplots summarize the distribution of block-group median income and median age in each county. A higher box means higher estimates for a typical block group; wide boxes and whiskers show variation within a county.
+
+```{r}
+#| label: county-demographic-boxplots
+#| fig-height: 7
+
+acs_data |>
+  select(county, median_household_income, median_age) |>
+  pivot_longer(
+    cols = c(median_household_income, median_age),
+    names_to = "measure",
+    values_to = "estimate"
+  ) |>
+  mutate(
+    measure = recode(
+      measure,
+      median_household_income = "Median household income (USD)",
+      median_age = "Median age (years)"
+    )
+  ) |>
+  ggplot(aes(x = county, y = estimate, fill = county)) +
+  geom_boxplot(alpha = 0.8, outlier.alpha = 0.2) +
+  facet_wrap(vars(measure), scales = "free_y", ncol = 1) +
+  scale_fill_manual(values = county_colors) +
+  scale_y_continuous(labels = scales::label_comma()) +
+  labs(
+    x = NULL,
+    y = "Block-group estimate",
+    caption = "Each box summarizes block-group estimates, not individual residents."
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    legend.position = "none",
+    panel.grid.minor = element_blank()
+  )
+```
+
+Data source: [U.S. Census Bureau American Community Survey](https://www.census.gov/programs-surveys/acs/data.html), 2020–2024 five-year estimates.
