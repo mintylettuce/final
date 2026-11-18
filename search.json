@@ -1,0 +1,58 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "South Florida Insurance Market Analysis",
+    "section": "",
+    "text": "This project explores demographic and economic characteristics across Miami-Dade, Broward, and Palm Beach counties. These patterns can help describe communities, but they do not tell us whether any person or household will buy insurance."
+  },
+  {
+    "objectID": "index.html#income-and-age-across-block-groups",
+    "href": "index.html#income-and-age-across-block-groups",
+    "title": "South Florida Insurance Market Analysis",
+    "section": "Income and age across block groups",
+    "text": "Income and age across block groups\nEach point represents one Census block group. The 2024 ACS five-year estimates show a weak overall relationship between median age and median household income (correlation: 0.06). The county colors overlap, and there is wide variation within each county.\n\n\n\n\n\n\n\n\n\nThe graph uses 3,589 block groups. The download retained rows with non-missing median income and median age; auxiliary housing and population estimates may still be missing. See the ACS data source."
+  },
+  {
+    "objectID": "explore.html",
+    "href": "explore.html",
+    "title": "Explore South Florida",
+    "section": "",
+    "text": "Use the dropdown to focus on one county or compare all three. Hover over a point for its block group and estimates; drag across the chart to zoom, then use the plot controls to zoom in or out."
+  },
+  {
+    "objectID": "explore.html#interactive-income-and-age",
+    "href": "explore.html#interactive-income-and-age",
+    "title": "Explore South Florida",
+    "section": "Interactive income and age",
+    "text": "Interactive income and age\nEach point is one of 3,589 block groups. The estimates describe the block group as a whole; they are not measurements of individual residents."
+  },
+  {
+    "objectID": "explore.html#compare-county-distributions",
+    "href": "explore.html#compare-county-distributions",
+    "title": "Explore South Florida",
+    "section": "Compare county distributions",
+    "text": "Compare county distributions\nThese boxplots summarize the distribution of block-group median income and median age in each county. A higher box means higher estimates for a typical block group; wide boxes and whiskers show variation within a county.\n\n\n\n\n\n\n\n\n\nData source: U.S. Census Bureau American Community Survey, 2020–2024 five-year estimates."
+  },
+  {
+    "objectID": "story.html",
+    "href": "story.html",
+    "title": "Insurance Market Opportunities",
+    "section": "",
+    "text": "In these block-group estimates, Palm Beach has the highest median household income ($86,983.50), followed by Broward ($80,713) and Miami-Dade ($76,380.50). The distributions overlap, and each county has block groups spanning a wide income range; county averages alone would hide that local variation.\n\n\n\n\n\n\n\n\n\nThe chart gives each block group equal weight, so it describes neighborhoods rather than the distribution of individual residents. Median age, population, household counts, renter-occupied units, and home values add useful context: for example, income and housing values may help frame affordability questions, while age and household patterns may suggest different life-stage needs to investigate.\nThese are clues for further research, not evidence of insurance purchasing behavior. Census demographics cannot show who has insurance, what coverage people prefer, or whether anyone will buy a policy; actual demand also depends on prices, risk, eligibility, preferences, and existing coverage."
+  },
+  {
+    "objectID": "story.html#what-stands-out-in-the-income-data",
+    "href": "story.html#what-stands-out-in-the-income-data",
+    "title": "Insurance Market Opportunities",
+    "section": "",
+    "text": "In these block-group estimates, Palm Beach has the highest median household income ($86,983.50), followed by Broward ($80,713) and Miami-Dade ($76,380.50). The distributions overlap, and each county has block groups spanning a wide income range; county averages alone would hide that local variation.\n\n\n\n\n\n\n\n\n\nThe chart gives each block group equal weight, so it describes neighborhoods rather than the distribution of individual residents. Median age, population, household counts, renter-occupied units, and home values add useful context: for example, income and housing values may help frame affordability questions, while age and household patterns may suggest different life-stage needs to investigate.\nThese are clues for further research, not evidence of insurance purchasing behavior. Census demographics cannot show who has insurance, what coverage people prefer, or whether anyone will buy a policy; actual demand also depends on prices, risk, eligibility, preferences, and existing coverage."
+  },
+  {
+    "objectID": "story.html#data-sources",
+    "href": "story.html#data-sources",
+    "title": "Insurance Market Opportunities",
+    "section": "Data sources",
+    "text": "Data sources\nThis analysis uses Miami-Dade, Broward, and Palm Beach County block groups from the 2024 ACS 5-year API. The Census Bureau ACS data page describes the survey and its estimates. Block groups missing median income or median age were excluded; auxiliary estimates may still be missing."
+  }
+]
